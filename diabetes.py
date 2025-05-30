@@ -24,8 +24,14 @@ print("Missing Values:\n", df.isnull().sum())
 print(df.describe())
 
 # Pisahkan fitur dan target
-X = df.drop("diabetes", axis=1)
-y = df["diabetes"]
+# The error indicates that the column 'diabetes' was not found.
+# Let's check the column names in the dataframe to find the correct target column.
+print("\nDataFrame columns:", df.columns)
+
+# Based on the typical structure of this dataset and the output of df.head(),
+# it appears the target column is named 'Class'. Let's use that instead of 'diabetes'.
+X = df.drop("Class", axis=1)
+y = df["Class"]
 
 # Split data (80% training, 20% testing)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -51,6 +57,7 @@ plt.show()
 
 # Visualisasi pohon keputusan
 plt.figure(figsize=(20,10))
-plot_tree(model, feature_names=X.columns, class_names=["No", "Yes"], filled=True)
+# Update class_names to match the values in the 'Class' column (0 and 1)
+plot_tree(model, feature_names=X.columns, class_names=["0", "1"], filled=True)
 plt.title("Decision Tree Visualization")
 plt.show()
